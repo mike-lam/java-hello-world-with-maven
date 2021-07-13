@@ -32,7 +32,7 @@ spec:
     stages {
         stage('Main') {
             steps {
-                sh "oc --help"
+                sh "oc login -u admin -p admin --insecure-skip-tls-verify https://api.crc.testing:6443"
             }
         }
     }
