@@ -31,15 +31,20 @@ spec:
         }
     }
     stages {
+	    
         stage('DeploySonarqube') {
             steps {
                 sh '''#!/bin/bash
-				    oc login -u admin -p admin --insecure-skip-tls-verify https://api.crc.testing:6443
-				    GRP=app.kubernetes.io/part-of=sonarqube-grp
+		    oc login -u admin -p admin --insecure-skip-tls-verify https://api.crc.testing:6443
+		    oc project a1
+		    GRP=app.kubernetes.io/part-of=sonarqube-grp
                     oc new-app sonarqube -l ${GRP}
                     oc expose service/sonarqube
-				'''
+		'''
             }
         }
+	    
+   
+	    
     }
 }
