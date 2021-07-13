@@ -1,3 +1,4 @@
+
 // Uses Declarative syntax to run commands inside a container.
 pipeline {
     agent {
@@ -30,9 +31,14 @@ spec:
         }
     }
     stages {
-        stage('Main') {
+        stage('DeploySonarqube') {
             steps {
-                sh "oc login -u admin -p admin --insecure-skip-tls-verify https://api.crc.testing:6443"
+                sh '''#!/bin/bash
+				    oc login -u admin -p admin --insecure-skip-tls-verify https://api.crc.testing:6443
+				    GRP=app.kubernetes.io/part-of=sonarqube-grp
+                    oc new-app sonarqube -l ${GRP}
+                    oc expose service/sonarqube
+				'''
             }
         }
     }
