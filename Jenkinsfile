@@ -16,7 +16,7 @@ kind: Pod
 spec:
   containers:
   - name: shell
-    image: maven
+    image: quay.io/repository/openshift/origin-cli
     command:
     - sleep
     args:
@@ -32,7 +32,7 @@ spec:
     stages {
         stage('Main') {
             steps {
-                sh "mvn package"
+                sh "oc --help"
             }
         }
     }
