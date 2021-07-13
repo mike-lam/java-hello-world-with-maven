@@ -16,7 +16,7 @@ kind: Pod
 spec:
   containers:
   - name: shell
-    image: quay.io/repository/openshift/origin-cli
+    image: openshift/origin-cli
     command:
     - sleep
     args:
