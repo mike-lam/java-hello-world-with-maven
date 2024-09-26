@@ -1,3 +1,4 @@
+
 // Uses Declarative syntax to run commands inside a container.
 pipeline {
     agent {
@@ -16,7 +17,7 @@ kind: Pod
 spec:
   containers:
   - name: shell
-    image: maven
+    image: openshift/origin-cli
     command:
     - sleep
     args:
@@ -30,10 +31,20 @@ spec:
         }
     }
     stages {
-        stage('Main') {
+	    
+        stage('DeploySonarqube') {
             steps {
-                sh "mvn package"
+                sh '''#!/bin/bash
+		    oc login -u admin -p admin --insecure-skip-tls-verify https://api.crc.testing:6443
+		    oc project a1
+		    GRP=app.kubernetes.io/part-of=sonarqube-grp
+                    oc new-app sonarqube -l ${GRP}
+                    oc expose service/sonarqube
+		'''
             }
         }
+	    
+   
+	    
     }
 }
